@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Analytics Amazon SES</title>
+</head>
+<body>
+	<ul>
+		<li>Complaints: {{ statistic.Complaints }}</li>
+		<li>Bunces: {{ statistic.Bounces }}</li>
+		<li>DeliveryAttempts: {{ statistic.DeliveryAttempts }}</li>
+		<li>Rejects: {{ statistic.Rejects }}</li>
+	</ul>
+	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+</body>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+	<script type="text/javascript">
+		$(function () {
+		    $('#container').highcharts({
+		        chart: {
+		            plotBackgroundColor: null,
+		            plotBorderWidth: null,
+		            plotShadow: false
+		        },
+		        title: {
+		            text: 'Estadísticas de la Campaña ---'
+		        },
+		        tooltip: {
+		    	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		        },
+		        plotOptions: {
+		            pie: {
+		                allowPointSelect: true,
+		                cursor: 'pointer',
+		                dataLabels: {
+		                    enabled: true,
+		                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+		                    style: {
+		                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+		                    }
+		                }
+		            }
+		        },
+		        series: [{
+		            type: 'pie',
+		            name: 'Browser share',
+		            data: [
+		                ['Complaints',   {{ statistic.Complaints }}],
+		                ['Bounces',       {{ statistic.Bounces }}],
+		                {
+		                    name: 'DeliveryAttempts',
+		                    y: {{ statistic.DeliveryAttempts }},
+		                    sliced: true,
+		                    selected: true
+		                },
+		                ['Rejects',    {{ statistic.Rejects }}]
+		            ]
+		        }]
+		    });
+		});
+	</script>
+</html>
